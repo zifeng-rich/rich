@@ -1,6 +1,7 @@
 # RoadToIT
 it 学习笔记
 ##  目录
+- [linux](#linux)
 - [docker](#docker)
     - [安装](#安装)
     - [命令](#命令)
@@ -8,11 +9,15 @@ it 学习笔记
 - [kubernetes](#kubernetes)
 - [ceph](#ceph)
 - [etcd](#etcd)
-- [mysql](#mysql)
-- [mongodb](#mongodb)
 - [java](#java)
 - [groovy](#groovy)
-- [linux](#linux)
+- [pipeline](#pipeline)
+- [mysql](#mysql)
+- [mongodb](#mongodb)
+- [redis](#redis)
+- [RabbitMQ](#RabbitMQ)
+- [Apollo](#Apollo)
+- [Consul](#Consul)
 
 
 ## docker
