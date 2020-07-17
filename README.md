@@ -1,5 +1,5 @@
-# RoadToIT
-it 学习笔记
+# notes
+笔记
 ##  目录
 - [linux](#linux)
     - [常用命令](#常用命令)
