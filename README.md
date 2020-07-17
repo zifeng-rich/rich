@@ -339,7 +339,7 @@ exec "$@"
 
 ##  kubernetes
 
-###  概念
+###  架构
 <p align="right">
     <img src="/images/2.png" width=""/>
 </p>
@@ -365,3 +365,82 @@ Kubernetes主要由以下几个核心组件组成：
 - Dashboard提供GUI
 - Federation提供跨可用区的集群
 - Fluentd-elasticsearch提供集群日志采集、存储与查询
+
+
+### 常用命令
+
+创建Deployment
+```
+# 创建一个nginx.yaml文件
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+# 创建Deployment
+kubectl -n default apply -f nginx.yaml
+注：-n 指定命名空间，不指定默认为default
+```
+查看命名空间下pod 列表
+```
+kubectl -n default get po
+or
+kubectl -n default get pod
+or
+kubectl -n default get pods
+```
+查看pod日志
+```
+kubectl -n default logs -f nginx-demo-xxxxxxx
+```
+进入到pod容器内
+```
+kubectl -n default exec -it nginx-demo-xxxxxxx sh
+or
+kubectl -n default exec -it nginx-demo-xxxxxxx bash
+```
+查看pod模板
+```
+kubectl -n default get po nginx-demo-xxxxxxx -o yaml
+or
+kubectl -n default get po nginx-demo-xxxxxxx -o json
+```
+查看pod更多信息
+```
+kubectl -n default describe po nginx-demo-xxxxxxx
+or
+kubectl -n default get po nginx-demo-xxxxxxx -o wide
+```
+复制宿主机文件到pod
+```
+# 复制当前路径下test.txt到容器根目录
+kubectl -n default cp test.txt nginx-demo-xxxxxxx:/
+```
+从容器复制文件到宿主机
+```
+从容器复制test.txt到宿主机根目录
+kubectl -n default cp nginx-demo-xxxxxxx:/test.txt /
+```
+删除pod
+```
+kubectl -n default delete po nginx-demo-xxxxxxx
+```
+查看deployment列表
+```
+kubectl -n default get deploy
+```
+删除deployment
+```
+kubectl -n default delete deploy nginx-demo
+```
