@@ -170,6 +170,13 @@ Ceph文件系统和Ceph块设备。
 ```
 rbd pool init <pool-name>
 ```
+创建一个块设备用户
+```
+ceph auth get-or-create client.{ID} mon 'profile rbd' osd 'profile {profile name} [pool={pool-name}][, profile ...]' mgr 'profile rbd [pool={pool-name}]'
+
+# For example, to create a user ID named qemu with read-write access to the pool vms and read-only access to the pool images, execute the following
+ceph auth get-or-create client.qemu mon 'profile rbd' osd 'profile rbd pool=vms, profile rbd-read-only pool=images' mgr 'profile rbd pool=images'
+```
 创建块设备映像
 ```
 rbd create --size {megabytes} {pool-name}/{image-name}
