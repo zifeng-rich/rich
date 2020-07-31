@@ -7,6 +7,8 @@
     - [启动和停止集群](#启动和停止集群)
     - [健康检查](#健康检查)
     - [监控集群](#监控集群)
+- [ceph块设备](#ceph块设备)
+    - [基本命令](#基本命令)
 
 # ceph简介
 
@@ -150,4 +152,53 @@ ceph mon stat
 **检查MDS状态**  
 ```
 ceph mds stat
+```
+
+# ceph块设备
+一块是字节序列（例如，一个512字节的数据块）。基于块的存储接口是使用旋转介质（例如硬盘，CD，软盘甚至传统的9轨磁带）存储数据的最常用方法。块设备接口的无处不在使虚拟块设备成为与海量数据存储系统（如Ceph）
+进行交互的理想候选者。  
+
+Ceph块设备经过精简配置，可调整大小，并在Ceph集群中的多个OSD上存储条带化数据。Ceph块设备利用了 RADOS功能，例如快照，复制和一致性。Ceph的 RADOS块设备（RBD）使用内核模块或librbd库与OSD进行交互。
+<p align="center">
+    <img src="/images/4.png">
+</p>
+Ceph的的块设备提供了无限的可扩展性，以高性能的 内核模块，或者KVM系列如QEMU和基于云计算系统，如OpenStack的和的CloudStack依赖的libvirt和QEMU与Ceph的块设备集成。您可以使用同一集群同时运行Ceph RADOS网关，
+Ceph文件系统和Ceph块设备。
+
+## 基本命令
+创建一个块设备池
+```
+rbd pool init <pool-name>
+```
+创建块设备映像
+```
+rbd create --size {megabytes} {pool-name}/{image-name}
+注： {megabytes} 单位为 GB
+```
+列出块设备映像
+```
+rbd ls {poolname}
+
+# 列出特定池中的延迟删除块设备
+rbd trash ls {poolname}
+```
+检索图像信息
+```
+rbd info {pool-name}/{image-name}
+```
+调整块设备映像的大小
+```
+rbd resize --size 2048 foo 
+rbd resize --size 2048 foo --allow-shrink
+```
+删除块设备的图像
+```
+rbd rm {pool-name}/{image-name}
+
+# 推迟从池中删除块设备
+rbd trash mv {pool-name}/{image-name}
+```
+恢复块设备映像
+```
+rbd trash restore {pool-name}/{image-id}
 ```
