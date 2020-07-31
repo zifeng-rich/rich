@@ -10,7 +10,6 @@
 - [Volumes](#Volumes)
 - [ConfigMap](#ConfigMap)
  
-
 #  kubernetes架构
 <p align="right">
     <img src="/images/2.png" width=""/>

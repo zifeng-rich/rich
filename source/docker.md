@@ -145,6 +145,36 @@ docker system prune -a -f
 示例：
 FROM nginx
 ```  
+多个FROM  
+```
+FROM golang:1.10.3
+COPY server.go /build/
+WORKDIR /build
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOARM=6 go build -ldflags '-w -s' -o server
+# 运行阶段
+FROM scratch
+# 从前一个阶段中拷贝结果到当前镜像中
+COPY --from=0 /build/server /
+ENTRYPOINT ["/server"]
+```
+--from=0参数，从前边的阶段中拷贝文件到当前阶段中，多个FROM语句时，0代表第一个阶段。除了使用数字，我们还可以给阶段命名，比如：
+```
+# 编译阶段 命名为 builder
+FROM golang:1.10.3 as builder
+COPY server.go /build/
+WORKDIR /build
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOARM=6 go build -ldflags '-w -s' -o server
+# 运行阶段
+FROM scratch
+# 从编译阶段的中拷贝编译结果到当前镜像中
+COPY --from=builder /build/server /
+```
+更为强大的是，COPY --from不但可以从前置阶段中拷贝，还可以直接从一个已经存在的镜像中拷贝。比如  
+```
+FROM ubuntu:16.04
+COPY --from=quay.io/coreos/etcd:v3.3.9 /usr/local/bin/etcd /usr/local/bin/
+```
+
 **LABEL**： 添加元数据信息到镜像 
 ```
 示例：
