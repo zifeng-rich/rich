@@ -9,6 +9,7 @@
 - [Ingress](#Ingress)
 - [Volumes](#Volumes)
 - [ConfigMap](#ConfigMap)
+- [部署ridis](#部署redis)
  
 #  kubernetes架构
 <p align="right">
@@ -362,3 +363,91 @@ volumes:
   name: coredns
 name: config-volume
 ```
+
+
+# 部署redis
+1. 创建PV及PVC用于挂载配置和数据
+2. 创建ConfigMap
+3. 创建Headless service,它是StatefulSet实现稳定网络标识的基础，需要提前创建
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: dev
+  labels:
+    app: redis-app
+spec:
+  ports:
+  - name: redis-port
+    port: 6379
+  clusterIP: None
+  selector:
+    app: redis-app
+    appCluster: redis-cluster
+```
+4. 利用StatefulSet创建redis
+```
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: redis-app
+spec:
+  serviceName: "redis-service"
+  replicas: 6
+  template:
+    metadata:
+      labels:
+        app: redis-app
+        appCluster: redis-cluster
+    spec:
+      terminationGracePeriodSeconds: 10
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - redis
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: redis
+        image: "vio/redis:1.0"
+        command:
+          - "redis-server"
+        args:
+          - "/etc/redis/redis.conf"
+          - "--protected-mode"
+          - "no"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        ports:
+            - name: redis
+              containerPort: 6379
+              protocol: "TCP"
+            - name: cluster
+              containerPort: 16379
+              protocol: "TCP"
+        volumeMounts:
+          - name: "redis-conf"
+            mountPath: "/etc/redis"
+          - name: redis-volume
+            mountPath: "/var/lib/redis"
+      volumes:
+      - name: "redis-conf"
+        configMap:
+          name: "redis-conf"
+          items:
+            - key: "redis.conf"
+              path: "redis.conf"
+      - name: redis-volume
+        hostPath:
+          path: /root/redis/volumes
+```
+
