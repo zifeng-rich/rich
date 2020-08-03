@@ -368,7 +368,7 @@ name: config-volume
 # 部署redis
 1. 创建PV及PVC用于挂载配置和数据
 2. 创建ConfigMap
-3. 创建Headless service,它是StatefulSet实现稳定网络标识的基础，需要提前创建
+3. 创建Headless service,它是StatefulSet实现稳定网络标识的基础，需要提前创建。相当于给pod一个内部域名
 ```
 apiVersion: v1
 kind: Service
