@@ -15,3 +15,7 @@
 真实账号信号：https://www.mql5.com/zh/signals/667212  
 经历长达3年的真实账号验证:    
 <img src="/images/prado-ea/prado1.png" width="100%">
+严格止损：  
+<img src="/images/prado-ea/prado2.png" width="100%">
+较低的潜在风险：    
+<img src="/images/prado-ea/prado3.png" width="100%">
