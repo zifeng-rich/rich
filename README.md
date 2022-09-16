@@ -13,4 +13,5 @@
 
 ## Prado ea的可行性报告
 真实账号信号：https://www.mql5.com/zh/signals/667212  
-经历长达3年的真实账号验证<img src="/images/prado-ea/prado1.png" width="50%">
+经历长达3年的真实账号验证:    
+<img src="/images/prado-ea/prado1.png" width="100%">
