@@ -21,4 +21,5 @@
 <img src="/images/prado-ea/prado3.png" width="100%">  
 
 ## Prado ea的执行计划  
+历时5个月，凑齐20000美金入市执行prado EA计划：  
 <img src="/images/prado-ea/prado计划.png" width="100%">  
