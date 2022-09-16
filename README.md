@@ -18,4 +18,6 @@
 严格止损：  
 <img src="/images/prado-ea/prado2.png" width="100%">
 较低的潜在风险：    
-<img src="/images/prado-ea/prado3.png" width="100%">
+<img src="/images/prado-ea/prado3.png" width="100%">  
+
+## Prado ea的执行计划  
