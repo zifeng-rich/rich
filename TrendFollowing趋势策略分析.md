@@ -1,5 +1,5 @@
 #### TrendFolowing的特点
-TrendFollowing利用趋势跟踪策略，当存在趋势时，效果非常显著，但在震荡行情中表现不佳。  
+TrendFollowing利用趋势跟踪策略，当存在趋势时，效果非常显著。趋势越强，趋势周期越长，效果越好。但在震荡行情中表现不佳。  
 #### XAUUSD国际黄金合约趋势特点分析
 <img src="images/XAUUSD.png" style="height:420px;width:100%;"></img>
 #### USDJPY美元日元合约趋势特点分析
